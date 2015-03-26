@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8283a89a-14ea-404e-931e-e3bb7a2d9c5a}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\vflib">
+      <UniqueIdentifier>{9b8b2e19-e816-4760-bf9f-88f83a24754e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{9bb3446a-ada0-496e-a753-c37d797b2879}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{9bfa8090-5430-472a-94ab-33dc737c57ec}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\vflib2\src2\argedit.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\argloader.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\argraph.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\error.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\gene.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\gene_mesh.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\match.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\sd_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\sortnodes.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\ull_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\ull_sub_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\vf2_mono_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\vf2_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\vf2_sub_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\vf_mono_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\vf_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\vf_sub_state.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib2\src2\xsubgraph.cpp">
+      <Filter>Source Files\vflib</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\BasicBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\bitset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\coff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\DepGraphNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\instruction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Lock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\PEFuncs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\ControlFlowGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\shared.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\InstructionComparator3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\vflib2\src2\sortnodes.h">
+      <Filter>Source Files\vflib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\BasicBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\bitset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\coff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\DepGraphNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\inline_lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\instruction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Lock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\PEFuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ControlFlowGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\InstructionComparator3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

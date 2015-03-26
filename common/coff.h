@@ -1,0 +1,1 @@
+bool build_from_coff(TCHAR *filename);

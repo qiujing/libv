@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <ProjectGuid>{6EEE4DDD-4B00-BA9E-657D-DDD90030C13B}</ProjectGuid>
+    <ProjectName>lib</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Release\</OutDir>
+    <IntDir>..\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\sparsehash\windows;..\vflib2\include;$(IncludePath)</IncludePath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\vflib2\include;$(IncludePath)</IncludePath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\lib.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+      <AdditionalOptions>/D "CEDG" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Midl>
+      <TypeLibraryName>.\Release\lib.tlb</TypeLibraryName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\lib.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>../Release/lib.exe</OutputFile>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\lib___Win32_Debug\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\lib___Win32_Debug\lib.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\lib___Win32_Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\lib___Win32_Debug\</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalOptions>/D "CEDG" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Midl>
+      <TypeLibraryName>.\lib___Win32_Debug\lib.tlb</TypeLibraryName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\lib___Win32_Debug\lib.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/D "CEDG" %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\BasicBlock.cpp" />
+    <ClCompile Include="..\common\bitset.cpp" />
+    <ClCompile Include="..\common\coff.cpp" />
+    <ClCompile Include="..\common\ControlFlowGraph.cpp" />
+    <ClCompile Include="..\common\DepGraphNode.cpp" />
+    <ClCompile Include="..\common\instruction.cpp" />
+    <ClCompile Include="..\common\InstructionComparator.cpp" />
+    <ClCompile Include="..\common\InstructionComparator2.cpp" />
+    <ClCompile Include="..\common\InstructionComparator3.cpp" />
+    <ClCompile Include="..\common\Lock.cpp" />
+    <ClCompile Include="..\common\PEFuncs.cpp" />
+    <ClCompile Include="..\common\shared.cpp" />
+    <ClCompile Include="..\common\utility.cpp" />
+    <ClCompile Include="..\vflib2\src2\argedit.cpp" />
+    <ClCompile Include="..\vflib2\src2\argloader.cpp" />
+    <ClCompile Include="..\vflib2\src2\argraph.cpp" />
+    <ClCompile Include="..\vflib2\src2\error.cpp" />
+    <ClCompile Include="..\vflib2\src2\gene.cpp" />
+    <ClCompile Include="..\vflib2\src2\gene_mesh.cpp" />
+    <ClCompile Include="..\vflib2\src2\match.cpp" />
+    <ClCompile Include="..\vflib2\src2\sd_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\sortnodes.cpp" />
+    <ClCompile Include="..\vflib2\src2\ull_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\ull_sub_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\vf2_mono_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\vf2_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\vf2_sub_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\vf_mono_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\vf_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\vf_sub_state.cpp" />
+    <ClCompile Include="..\vflib2\src2\xsubgraph.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\BasicBlock.h" />
+    <ClInclude Include="..\common\bitset.h" />
+    <ClInclude Include="..\common\coff.h" />
+    <ClInclude Include="..\common\ControlFlowGraph.h" />
+    <ClInclude Include="..\common\define.h" />
+    <ClInclude Include="..\common\DepGraphNode.h" />
+    <ClInclude Include="..\common\inline_lib.h" />
+    <ClInclude Include="..\common\instruction.h" />
+    <ClInclude Include="..\common\InstructionComparator.h" />
+    <ClInclude Include="..\common\InstructionComparator2.h" />
+    <ClInclude Include="..\common\InstructionComparator3.h" />
+    <ClInclude Include="..\common\Lock.h" />
+    <ClInclude Include="..\common\PEFuncs.h" />
+    <ClInclude Include="..\common\shared.h" />
+    <ClInclude Include="..\common\utility.h" />
+    <ClInclude Include="..\vflib2\src2\sortnodes.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
