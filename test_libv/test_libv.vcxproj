@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9D30721F-0A08-41CC-A3FA-126D2469476D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>test_libv</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>Intel C++ Compiler XE 15.0</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>Intel C++ Compiler XE 15.0</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ICIncludeDir);$(IncludePath);..\vflib_cilk\include;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\vflib_cilk\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\bitset.cpp" />
+    <ClCompile Include="..\vflib_cilk\src\argedit.cc" />
+    <ClCompile Include="..\vflib_cilk\src\argloader.cc" />
+    <ClCompile Include="..\vflib_cilk\src\argraph.cc" />
+    <ClCompile Include="..\vflib_cilk\src\error.cc" />
+    <ClCompile Include="..\vflib_cilk\src\gene.cc" />
+    <ClCompile Include="..\vflib_cilk\src\gene_mesh.cc" />
+    <ClCompile Include="..\vflib_cilk\src\match.cc" />
+    <ClCompile Include="..\vflib_cilk\src\sortnodes.cc" />
+    <ClCompile Include="..\vflib_cilk\src\vf2_bitset_sub_state.cc" />
+    <ClCompile Include="..\vflib_cilk\src\vf2_map_sub_state.cc" />
+    <ClCompile Include="..\vflib_cilk\src\vf2_sub_state.cc" />
+    <ClCompile Include="..\vflib_cilk\src\xsubgraph.cc" />
+    <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\vflib_cilk\include\allocpool.h" />
+    <ClInclude Include="..\vflib_cilk\include\argedit.h" />
+    <ClInclude Include="..\vflib_cilk\include\argloader.h" />
+    <ClInclude Include="..\vflib_cilk\include\argraph.h" />
+    <ClInclude Include="..\vflib_cilk\include\dict.h" />
+    <ClInclude Include="..\vflib_cilk\include\error.h" />
+    <ClInclude Include="..\vflib_cilk\include\gene.h" />
+    <ClInclude Include="..\vflib_cilk\include\gene_mesh.h" />
+    <ClInclude Include="..\vflib_cilk\include\match.h" />
+    <ClInclude Include="..\vflib_cilk\include\state.h" />
+    <ClInclude Include="..\vflib_cilk\include\stat_obj.h" />
+    <ClInclude Include="..\vflib_cilk\include\vf2_bitset_sub_state.h" />
+    <ClInclude Include="..\vflib_cilk\include\vf2_map_sub_state.h" />
+    <ClInclude Include="..\vflib_cilk\include\vf2_sub_state.h" />
+    <ClInclude Include="..\vflib_cilk\include\xsubgraph.h" />
+    <ClInclude Include="..\vflib_cilk\src\sortnodes.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
