@@ -5,17 +5,17 @@ extern bool limit_size;
 extern unsigned int lib_count;
 
 extern bool bFull;
-extern char *lib_root_path;
+extern char* lib_root_path;
 
 extern CRITICAL_SECTION cs;
 extern int total_function_len;
 
-unsigned int BKDRHash(char *str)
+unsigned int BKDRHash(char* str)
 {
     unsigned int seed = 23;
     unsigned int hash = 0;
 
-    while ((*str!=0) && (*str!=' '))
+    while ((*str != 0) && (*str != ' '))
     {
         hash = hash * seed + (*str++);
     }
@@ -29,11 +29,14 @@ unsigned int BKDRHash(char *str)
 // length: code length
 // for_lib: is a library function?
 // return: control flow graph
-void *disasm(byte *bin, int length, bool for_lib, char *lib_name, bool is_inlined_function, char *from_file)
+void* disasm(byte* bin, int length, bool for_lib, char* lib_name, bool is_inlined_function, char* from_file)
 {
-    if (limit_size && length < MIN_INS_LENGTH) return NULL;
+    if (limit_size && length < MIN_INS_LENGTH)
+    {
+        return NULL;
+    }
 
-#if 1
+#if 0
     {
         if (lib_name && strcmp(lib_name, "_strncpy"))
         {
@@ -43,42 +46,60 @@ void *disasm(byte *bin, int length, bool for_lib, char *lib_name, bool is_inline
 #endif
 
 #if 0
-	if (lib_name)
-	{
-		if (!strcmp(lib_name, "___report_gsfailure")){
-			return NULL;
-		}
-		if (!strcmp(lib_name, "__invoke_watson")){
-			return NULL;
-		}
-		if (!strcmp(lib_name, "___strgtold12_l")){
-			return NULL;
-		}
-		if (!strcmp(lib_name, "_$I10_OUTPUT")){
-			return NULL;
-		}
-		if (!strcmp(lib_name, "__input_l")){
-			return NULL;
-		}
-		if (!strcmp(lib_name, "__input_s_l")){
-			return NULL;
-		}
-		if (!strcmp(lib_name, "_abort")){
-			return NULL;
-		}
-		//__call_reportfault
-		if (!strcmp(lib_name, "__call_reportfault")){
-			return NULL;
-		}
-	}
+    if (lib_name)
+    {
+        if (!strcmp(lib_name, "___report_gsfailure"))
+        {
+            return NULL;
+        }
+        if (!strcmp(lib_name, "__invoke_watson"))
+        {
+            return NULL;
+        }
+        if (!strcmp(lib_name, "___strgtold12_l"))
+        {
+            return NULL;
+        }
+        if (!strcmp(lib_name, "_$I10_OUTPUT"))
+        {
+            return NULL;
+        }
+        if (!strcmp(lib_name, "__input_l"))
+        {
+            return NULL;
+        }
+        if (!strcmp(lib_name, "__input_s_l"))
+        {
+            return NULL;
+        }
+        if (!strcmp(lib_name, "_abort"))
+        {
+            return NULL;
+        }
+        //__call_reportfault
+        if (!strcmp(lib_name, "__call_reportfault"))
+        {
+            return NULL;
+        }
+    }
 #endif
+#if 0
+    if (lib_name)
+    {
+        if (strcmp(lib_name, "___report_gsfailure") && strcmp(lib_name, "__invoke_watson") && strcmp(lib_name, "___strgtold12_l") && strcmp(lib_name, "_$I10_OUTPUT") && strcmp(lib_name, "__input_l") && strcmp(lib_name, "__input_s_l") && strcmp(lib_name, "_abort") && strcmp(lib_name, "__call_reportfault"))
+        {
+            return NULL;
+        }
+    }
+#endif
+
 
     DISASM MyDisasm;
     memset(&MyDisasm, 0, sizeof(DISASM));
     MyDisasm.EIP = (UIntPtr)bin;
     int len = length;
 
-    ControlFlowGraph *cfg = new ControlFlowGraph;
+    ControlFlowGraph* cfg = new ControlFlowGraph;
 
     vector<DISASM> instructions;
     vector<int> instruction_lens;
@@ -86,8 +107,14 @@ void *disasm(byte *bin, int length, bool for_lib, char *lib_name, bool is_inline
     while (len > 0)
     {
         int len2 = Disasm(&MyDisasm);
-        if (len2 == UNKNOWN_OPCODE) break;
-        if (MyDisasm.Instruction.Opcode == 0xCC) break;
+        if (len2 == UNKNOWN_OPCODE)
+        {
+            break;
+        }
+        if (MyDisasm.Instruction.Opcode == 0xCC)
+        {
+            break;
+        }
         int ID = cfg->instructions.size();
 
         instructions.push_back(MyDisasm);
@@ -119,7 +146,7 @@ void *disasm(byte *bin, int length, bool for_lib, char *lib_name, bool is_inline
         visited.set(todo);
 
         // next
-        DISASM &disam = instructions[todo];
+        DISASM& disam = instructions[todo];
 
         switch (disam.Instruction.BranchType)
         {
@@ -160,9 +187,9 @@ void *disasm(byte *bin, int length, bool for_lib, char *lib_name, bool is_inline
         if (visited.isset(i))
         {
             Instruction ins;
-             memcpy(&ins.diasm, &instructions[i], sizeof(DISASM));
+            memcpy(&ins.diasm, &instructions[i], sizeof(DISASM));
             ins.ID = cfg->instructions.size();
-			ins.byte_length = instruction_lens[i];
+            ins.byte_length = instruction_lens[i];
             // numbering instruction
             ins.generalize();
 
@@ -219,63 +246,66 @@ void *disasm(byte *bin, int length, bool for_lib, char *lib_name, bool is_inline
 
         lib_count++;
 #if 0
-		bool f1 = false; bool f2 = false;
-		if (cfg->bb_len==3 && 
-			cfg->instructions.size()<40)
-		{
-			cfg->buildDepGraph(false);
-			cfg->serialize();
-			for each (Instruction ins in cfg->instructions)
-			{
-				if (ins.db_id==-1){
-					f1 = true;
-				}
-				/*if (ins.db_id == -2){
-					f2 = true;
-				}*/
-			}
+        bool f1 = false;
+        bool f2 = false;
+        if (cfg->bb_len == 3 &&
+                cfg->instructions.size() < 40)
+        {
+            cfg->buildDepGraph(false);
+            cfg->serialize();
+            for each(Instruction ins in cfg->instructions)
+            {
+                if (ins.db_id == -1)
+                {
+                    f1 = true;
+                }
+                /*if (ins.db_id == -2){
+                	f2 = true;
+                }*/
+            }
 
-			for (size_t i = 0; i < cfg->bb_len; i++)
-			{
-				if (cfg->basic_blocks[i].has_uncertain_vertexSeq)
-				{
-					f2 = true;
-					break;
-				}
-			}
+            for (size_t i = 0; i < cfg->bb_len; i++)
+            {
+                if (cfg->basic_blocks[i].has_uncertain_vertexSeq)
+                {
+                    f2 = true;
+                    break;
+                }
+            }
 
-			if (//f1
-				//&&
-				f2
-				){
-				printf("%s\n", lib_name);
-				cfg->dep_graph();
-				cfg->dot_vfgraphForFull();
-				char c;
-				cin.read(&c, 1);
+            if (//f1
+                //&&
+                f2
+            )
+            {
+                printf("%s\n", lib_name);
+                cfg->dep_graph();
+                cfg->dot_vfgraphForFull();
+                char c;
+                cin.read(&c, 1);
 
-				//ExitProcess(0);
-			}			
-		}
+                //ExitProcess(0);
+            }
+        }
 #endif
-		//cfg->bb_graph();
-		cfg->buildDepGraph(false);
-		cfg->dep_graph();
-		ExitProcess(0);
+        //cfg->bb_graph();
+        //cfg->buildDepGraph(false);
+        //cfg->dep_graph();
+        //ExitProcess(0);
     }
     return cfg;
 }
 
 void build_instruction_db()
 {
-    //  if (!bFull)
+    if (!bFull)
     {
         disasm(lib_m, sizeof(lib_m), true, "strlen");
         //disasm(lib_m2, sizeof(lib_m2), true, "strcpy");
         //disasm(lib_m3, sizeof(lib_m3), true, "div");
         //disasm(lib_m4, sizeof(lib_m4), true, "_pos_end");
         //disasm(lib_m5, sizeof(lib_m5), true, "memcpy");
-       // disasm(lib_m6,sizeof(lib_m6),true,"strcat");
+        // disasm(lib_m6,sizeof(lib_m6),true,"strcat");
         //disasm(lib_m7, sizeof(lib_m7), true, "strcmp");
         //disasm(lib_m8, sizeof(lib_m8), true, "abs");
         //disasm(lib_m9, sizeof(lib_m9), true, "memcmp");
@@ -295,53 +325,50 @@ void build_instruction_db()
         build_from_coff(path1);
     }
 #endif
-	//ExitProcess(0);
 }
 
-bool my_visitor(int n, node_id ni1[], node_id ni2[], void *usr_data)
+bool my_visitor(int n, node_id ni1[], node_id ni2[], void* usr_data)
 {
     //    int i;
-    int *data = (int *)usr_data;
-    Graph *g = (Graph *)data[0];
-    Graph *m = (Graph *)data[1];
+    int* data = (int*)usr_data;
+    Graph* m = (Graph*)data[0];
+    Graph* g = (Graph*)data[1];
     PCBitSet lib_info = (PCBitSet)data[2];
 
-    bool is_full = g->NodeCount() == n;
+    //bool is_full = g->NodeCount() == n;
+    extern bool bFull;
     // find
-    if (lib_info->isset(ni1[0])) {}
+    if (lib_info->isset(ni2[0])) {}
     else
     {
         bool passed = true;
         extern long found_c;
         InterlockedExchangeAdd(&found_c, 1);
-        lib_info->set(ni1[0]);
+        lib_info->set(ni2[0]);
     }
 
-    return is_full;
+    return bFull;
 }
 
-bool match(Graph *graph_g, Graph *graph_m, PCBitSet lib_info)
+bool match(Graph* graph_m, Graph* graph_g, PCBitSet lib_info)
 {
     VF2SubState s0(graph_m, graph_g);
     int data[3];
-    data[0] = (int)graph_g;
-    data[1] = (int)graph_m;
+    data[0] = (int)graph_m;
+    data[1] = (int)graph_g;
     data[2] = (int)lib_info;
-    if (match(&s0, my_visitor, &data))
-    {
-        return true;
-    }
-    else
-    {
-    }
-    return false;
+
+    Match m(&s0, my_visitor, &data);
+
+    m.match_par();
+    return m.foundFlg;
 }
 
 
 //
 // match BBSF, if true: skip, false: not matched
 //
-bool matchBBSF(ControlFlowGraph *g, ControlFlowGraph *m)
+bool matchBBSF(ControlFlowGraph* g, ControlFlowGraph* m)
 {
     if (m->bb_len == 1)
     {
@@ -355,16 +382,16 @@ bool matchBBSF(ControlFlowGraph *g, ControlFlowGraph *m)
     // match BBSF
     for (int i = 0; i < m->bb_len; i++)
     {
-        BasicBlock *g_m = &m->basic_blocks[m->bb_sorts[i].index];
+        BasicBlock* g_m = &m->basic_blocks[m->bb_sorts[i].index];
 
         // head block?
-		if (m->head_blocks.find(g_m) != m->head_blocks.end())
+        if (m->head_blocks.find(g_m) != m->head_blocks.end())
         {
             continue;
         }
 
         // tail block?
-        if (m->tail_blocks.find(g_m)!=m->tail_blocks.end())
+        if (m->tail_blocks.find(g_m) != m->tail_blocks.end())
         {
             continue;
         }
@@ -381,7 +408,7 @@ bool matchBBSF(ControlFlowGraph *g, ControlFlowGraph *m)
             if ((g->bb_sorts[j]).size == s2)
             {
                 // compare ID sequences
-                BasicBlock *g_b = &g->basic_blocks[g->bb_sorts[j].index];
+                BasicBlock* g_b = &g->basic_blocks[g->bb_sorts[j].index];
 
                 bool passed = true;
                 g_b->serialize(); // Do local EDG serialization when needed.
@@ -415,27 +442,33 @@ bool matchBBSF(ControlFlowGraph *g, ControlFlowGraph *m)
     return true;
 }
 
-
 //
 // return a target function
 //
 long current_m = 0;
-long GetM()
+bool GetM(int* job)
 {
     CLock lock(cs);
+
     if (current_m < total_function_len)
     {
-        int ret = current_m;
-        current_m++;
-        return ret;
+        job[0] = current_m;
+        current_m += 10;
+        if (current_m >= total_function_len)
+        {
+            current_m = total_function_len;
+        }
+
+        job[1] = current_m;
+        return true;
     }
-    return -1;
+    return false;
 }
 
-unsigned __stdcall TestThread(void *pParam)
+unsigned __stdcall TestThread(void* pParam)
 {
-    TEST_CONTEXT *tc = (TEST_CONTEXT *)pParam;
-    tc->result = match(tc->g, tc->m, tc->lib_info);
+    TEST_CONTEXT* tc = static_cast<TEST_CONTEXT*>(pParam);
+    tc->result = match(tc->m, tc->g, tc->lib_info);
 
     return 0;
 }
@@ -443,7 +476,7 @@ unsigned __stdcall TestThread(void *pParam)
 //
 // sort function
 //
-bool myfunction(function_info &i, function_info &j)
+bool myfunction(function_info& i, function_info& j)
 {
     return (i.len < j.len);
 }
@@ -467,8 +500,8 @@ bool validate_result(ControlFlowGraph* GT, int n, node_id ni2[])
             continue;
         }
 
-        BasicBlock* bb0 = (BasicBlock*)GT->instructions[ni2[0]].basic_block;
-        BasicBlock* bb = (BasicBlock*)GT->instructions[i].basic_block;
+        BasicBlock* bb0 = static_cast<BasicBlock*>(GT->instructions[ni2[0]].basic_block);
+        BasicBlock* bb = static_cast<BasicBlock*>(GT->instructions[i].basic_block);
 
         if (GT->instructions[i].diasm.EIP < GT->instructions[ni2[0]].diasm.EIP || GT->instructions[i].diasm.EIP > GT->instructions[ni2[n - 1]].diasm.EIP) // out of C_S?
         {
@@ -485,7 +518,7 @@ bool validate_result(ControlFlowGraph* GT, int n, node_id ni2[])
                 continue;
             }
 
-            for each (BasicBlock * suc in bb->succeccors)
+            for each(BasicBlock * suc in bb->succeccors)
             {
                 if (suc != bb0)
                 {
@@ -503,7 +536,7 @@ bool validate_result(ControlFlowGraph* GT, int n, node_id ni2[])
         else
         {
             bool hasPredecessors = false, hasSuccessors = false;
-            for each (BasicBlock * pre in bb->predecessors)
+            for each(BasicBlock * pre in bb->predecessors)
             {
                 for (size_t j = 1; j < n; j++)
                 {
@@ -519,7 +552,7 @@ bool validate_result(ControlFlowGraph* GT, int n, node_id ni2[])
                 }
             }
 
-            for each (BasicBlock * suc in bb->succeccors)
+            for each(BasicBlock * suc in bb->succeccors)
             {
                 for (size_t j = 1; j < n; j++)
                 {
@@ -553,7 +586,7 @@ bool validate_result(ControlFlowGraph* GT, int n, node_id ni2[])
 
             if (i == bb->end && GT->instructions[i].IsCTI())
             {
-                for each (BasicBlock * suc in bb->succeccors)
+                for each(BasicBlock * suc in bb->succeccors)
                 {
                     // check whether suc belongs to S
                     for (size_t j = 1; j < n; j++)

@@ -5,9 +5,6 @@
       <UniqueIdentifier>{8283a89a-14ea-404e-931e-e3bb7a2d9c5a}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Source Files\vflib">
-      <UniqueIdentifier>{9b8b2e19-e816-4760-bf9f-88f83a24754e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{9bb3446a-ada0-496e-a753-c37d797b2879}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
@@ -18,60 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\vflib2\src2\argedit.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\argloader.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\argraph.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\error.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\gene.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\gene_mesh.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\match.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\sd_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\sortnodes.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\ull_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\ull_sub_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\vf2_mono_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\vf2_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\vf2_sub_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\vf_mono_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\vf_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\vf_sub_state.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vflib2\src2\xsubgraph.cpp">
-      <Filter>Source Files\vflib</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,11 +51,44 @@
     <ClCompile Include="..\common\InstructionComparator3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\argedit.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\argloader.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\argraph.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\error.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\gene.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\gene_mesh.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\match.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\sortnodes.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\vf2_bitset_sub_state.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\vf2_map_sub_state.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\vf2_sub_state.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\vflib_cilk\src\xsubgraph.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\vflib2\src2\sortnodes.h">
-      <Filter>Source Files\vflib</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\BasicBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,6 +126,54 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\InstructionComparator3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\src\sortnodes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\allocpool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\argedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\argloader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\argraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\dict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\gene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\gene_mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\match.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\stat_obj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\vf2_bitset_sub_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\vf2_map_sub_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\vf2_sub_state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vflib_cilk\include\xsubgraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

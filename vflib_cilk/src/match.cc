@@ -66,6 +66,114 @@ void Match::match_par()
     //cv.dump("match_performance");
     //gettimeofday(&end, 0);
     //printf("Matched in %f\n", tdiff(&end, &start));
+
+    //match_serial_helper(s0, 1);
+}
+
+
+void Match::match_par_helper(State *s, int ss)
+{
+    if (s->IsGoal())
+    {
+        EnterCriticalSection(&this->cs);
+        if (foundFlg)
+        {
+            LeaveCriticalSection(&this->cs);
+            return;
+        }
+
+        pn = s->CoreLen();
+        s->GetCoreSet(c1, c2);
+        printf("Found a matching with %d nodes:\n", pn);
+        foundFlg = true;
+        LeaveCriticalSection(&this->cs);
+
+        return;
+    }
+
+    if (s->IsDead())
+    {
+        return;
+    }
+
+    node_id n1 = NULL_NODE, n2 = NULL_NODE;
+    while (!(foundFlg)
+            && s->NextPair(&n1, &n2, n1, n2))
+    {
+
+        if (s->IsFeasiblePair(n1, n2))
+        {
+            State *s1;
+            //printf("%d %u\n",cilk::current_worker_id(),cilk::current_worker_count());
+            if (ss % SPAWN_DEPTH < SPAWN_MULT)
+                //if(ss < SPAWN_DEPTH)
+            {
+                s1 = s->DeepClone();
+            }
+            else
+            {
+                s1 = s->Clone();
+            }
+            s1->AddPair(n1, n2);
+            if (ss % SPAWN_DEPTH < SPAWN_MULT)
+                //if( ss < SPAWN_DEPTH )
+            {
+                cilk_spawn match_par_helper(s1, ss + 1);
+            }
+            else
+            {
+                match_par_helper(s1, ss + 1);
+                s1->BackTrack();
+                delete s1;
+            }
+        }
+    }
+
+    cilk_sync;
+}
+
+void Match::match_serial_helper(State *s, int ss)
+{
+    if (s->IsGoal())
+    {
+        EnterCriticalSection(&this->cs);
+        if (foundFlg)
+        {
+            LeaveCriticalSection(&this->cs);
+            return;
+        }
+
+        pn = s->CoreLen();
+        s->GetCoreSet(c1, c2);
+        //printf("Found a matching with %d nodes:\n", pn);
+        foundFlg = true;
+        LeaveCriticalSection(&this->cs);
+
+        return;
+    }
+
+    if (s->IsDead())
+    {
+        return;
+    }
+
+    node_id n1 = NULL_NODE, n2 = NULL_NODE;
+    while (!(foundFlg)
+            && s->NextPair(&n1, &n2, n1, n2))
+    {
+        if (s->IsFeasiblePair(n1, n2))
+        {
+            State *s1 = s->Clone();
+            s1->AddPair(n1, n2);
+            match_serial_helper(s1, ss + 1);
+            if (foundFlg)
+            {
+                return;
+            }
+            s1->BackTrack();
+            delete s1;
+        }
+    }
 }
 
 void Match::match_par_helper_full_spawn(State* s, int ss, bool* flag, bool run_on_clone)

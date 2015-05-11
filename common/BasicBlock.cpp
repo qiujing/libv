@@ -20,7 +20,7 @@ BasicBlock::BasicBlock(void)
     depGraph = NULL;
 #ifdef CEDG
     OAM = NULL;
-	has_uncertain_vertexSeq = false;
+    has_uncertain_vertexSeq = false;
 #endif
 }
 
@@ -44,49 +44,49 @@ extern void print_(bitset<VAR_LENGTH> &b);
 #if 0
 void BasicBlock::buildDepGraph(bool _lib_mode)
 {
-	int i, j, k;
-	int L = size();
-	ControlFlowGraph *_cfg = (ControlFlowGraph *)cfg;
+    int i, j, k;
+    int L = size();
+    ControlFlowGraph *_cfg = (ControlFlowGraph *)cfg;
 
-	if (L == 1)
-	{
-		if (isHead())
-		{
-			if (predecessors.size() == 0)
-			{
-				_cfg->head_blocks.insert(this);
-			}
-		}
+    if (L == 1)
+    {
+        if (isHead())
+        {
+            if (predecessors.size() == 0)
+            {
+                _cfg->head_blocks.insert(this);
+            }
+        }
 
-		if (isTail())
-		{
-			if (!_cfg->instructions[end].IsCTI())
-			{
-				_cfg->tail_blocks.insert(this);
-			}
-		}
+        if (isTail())
+        {
+            if (!_cfg->instructions[end].IsCTI())
+            {
+                _cfg->tail_blocks.insert(this);
+            }
+        }
 
-		DepGraphNode dn;
-		dn.instruction_local_id = 0;
-		dn.ID = _cfg->instructions[start].db_id;
+        DepGraphNode dn;
+        dn.instruction_local_id = 0;
+        dn.ID = _cfg->instructions[start].db_id;
 
-		node.push_back(dn);
-		return;
-	}
-	//depGraph = new CBitSet(L * L);
-	for (i = 0; i < L ; i++)
-	{
-		DepGraphNode dn;
-		dn.instruction_local_id = i;
-		dn.ID = _cfg->instructions[start + i].db_id;
-		node.push_back(dn);
-	}
+        node.push_back(dn);
+        return;
+    }
+    //depGraph = new CBitSet(L * L);
+    for (i = 0; i < L ; i++)
+    {
+        DepGraphNode dn;
+        dn.instruction_local_id = i;
+        dn.ID = _cfg->instructions[start + i].db_id;
+        node.push_back(dn);
+    }
 
-	for (i=0;i<L-1;i++)
-	{
-		node[i].successors.insert(i+1);
-		node[i+1].predecessors.insert(i);
-	}
+    for (i = 0; i < L - 1; i++)
+    {
+        node[i].successors.insert(i + 1);
+        node[i + 1].predecessors.insert(i);
+    }
 }
 #endif
 #if 1
@@ -111,7 +111,7 @@ void BasicBlock::buildDepGraph(bool _lib_mode)
         {
             if (!_cfg->instructions[end].IsCTI())
             {
-				_cfg->tail_blocks.insert(this);
+                _cfg->tail_blocks.insert(this);
             }
         }
 
@@ -266,15 +266,15 @@ void BasicBlock::buildDepGraph(bool _lib_mode)
         }
     }
 #endif
-	hasEntry = true;// s1.size() > 1;
-	hasExit = true;// s2.size() > 1;
+    hasEntry = true;// s1.size() > 1;
+    hasExit = true;// s2.size() > 1;
     if (_lib_mode) // lib function?
     {
         if (isHead())//(ID == 0)
         {
             if (this->predecessors.size() == 0)
             {
-				_cfg->head_blocks.insert(this);
+                _cfg->head_blocks.insert(this);
             }
             hasEntry = false;
         }
@@ -283,7 +283,7 @@ void BasicBlock::buildDepGraph(bool _lib_mode)
         {
             if (!_cfg->instructions[end].IsCTI())
             {
-				_cfg->tail_blocks.insert(this);
+                _cfg->tail_blocks.insert(this);
             }
 
             hasExit = false;
@@ -336,7 +336,7 @@ int compare(const void *a, const void *b)
 {
     PDepGraphNode gn1 = *(PDepGraphNode *)a;
     PDepGraphNode gn2 = *(PDepGraphNode *)b;
-    return ((*(PDepGraphNode *)a)->ID - (*(PDepGraphNode *)b)->ID);    
+    return ((*(PDepGraphNode *)a)->ID - (*(PDepGraphNode *)b)->ID);
 }
 
 // serialization
@@ -417,7 +417,7 @@ void BasicBlock::serialize()
 #ifdef CEDG
                 if (work_list[i]->ID == last_id)
                 {
-					has_uncertain_vertexSeq = true;
+                    has_uncertain_vertexSeq = true;
                 }
                 last_id = work_list[i]->ID;
 #endif
@@ -428,7 +428,7 @@ void BasicBlock::serialize()
     delete[] work_list;
 
 #ifdef CEDG
-	if (!has_uncertain_vertexSeq)
+    if (!has_uncertain_vertexSeq)
     {
         int LEN = vertexSeq.size();
         assert(LEN == L);
@@ -495,10 +495,10 @@ DepGraphNode *BasicBlock::getEntryNode()
 
 //
 // v1 and v2 are local id
-// 
+//
 bool BasicBlock::hasDependence(int v1, int v2)
 {
-	return depGraph->isset((v1)*size() + (v2));
+    return depGraph->isset((v1) * size() + (v2));
 }
 
 bool BasicBlock::is_contained_all_instructions(BasicBlock* bb2)
@@ -570,7 +570,7 @@ bool BasicBlock::equal(BasicBlock* bb2)
     }
 
     // compare OAM
-	if ((vertexSeq.size() > 1) && (OAM!=NULL) && (bb2->OAM != NULL))
+    if ((vertexSeq.size() > 1) && (OAM != NULL) && (bb2->OAM != NULL))
     {
         return OAM->equal(bb2->OAM);
     }

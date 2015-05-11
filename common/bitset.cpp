@@ -41,14 +41,17 @@ CBitSet::CBitSet(int bitsCount)
     _len = bitsCount;
     // the real length of _mblock is (bitsCount / BITS_PER_CHAR + 1) in Byte
     _len2 = _len / BITS_PER_CHAR + 1;
-	_mblock = new char[_len2];
+    _mblock = new char[_len2];
     assert(_mblock != NULL);
     memset(_mblock, 0, sizeof(char) * _len2);
 }
 
 CBitSet::~CBitSet()
 {
-	delete [] _mblock;
+    if (_mblock != NULL)
+    {
+        delete [] _mblock;
+    }
 }
 
 int CBitSet::size()
@@ -124,7 +127,9 @@ int CBitSet::isset(int pos)
     i = pos / BITS_PER_CHAR;
     j = pos - i * BITS_PER_CHAR;
     if (_mblock[i] & mask1[j])
+    {
         return 1;
+    }
     return 0;
 }
 
@@ -132,7 +137,9 @@ void CBitSet::print()
 {
     int i;
     for (i = 0; i < _len; ++i)
+    {
         printf("%c", (isset(i) ? '1' : '0'));
+    }
     printf("\n");
 }
 
@@ -150,13 +157,13 @@ int CBitSet::any()
 }
 
 // Check if equal to bs
-bool CBitSet::equal( CBitSet* bs )
+bool CBitSet::equal(CBitSet* bs)
 {
     if (bs->getByteLength() != _len2)
     {
         return false;
     }
-    return memcmp(_mblock, bs->getBuffer(), _len2)==0;
+    return memcmp(_mblock, bs->getBuffer(), _len2) == 0;
 }
 
 int CBitSet::getByteLength()
@@ -167,4 +174,9 @@ int CBitSet::getByteLength()
 char* CBitSet::getBuffer()
 {
     return _mblock;
+}
+
+bool CBitSet::operator[](unsigned index)
+{
+    return isset(index);
 }

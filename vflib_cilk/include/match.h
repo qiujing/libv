@@ -51,7 +51,8 @@ public:
 private:
     //Concurrency::critical_section lock;
     CRITICAL_SECTION cs;
-    void match_par_helper(State* s, int d);
+    void match_par_helper(State *s, int ss);
+    void match_serial_helper(State *s, int ss);
     void match_par_helper_full_spawn(State* s, int ss, bool* flag, bool run_on_clone);
     match_visitor visitor;
     void* usr_data;

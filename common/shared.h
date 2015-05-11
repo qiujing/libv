@@ -9,7 +9,7 @@
 #include "utility.h"
 #include "ControlFlowGraph.h"
 
-#include "../vflib2/include/match.h"
+#include "../vflib_cilk/include/match.h"
 
 #include "coff.h"
 #include "Lock.h"
@@ -19,15 +19,16 @@
 #include "PEFuncs.h"
 //#include <tchar.h>
 #include <process.h>
+#include <cilk\cilk.h>
 
 USE_FASTDB_NAMESPACE
 
 typedef struct
 {
-	int startEA;
-	int len;
-	char lib_name[256];
-	char is_export_function;
+    int startEA;
+    int len;
+    char lib_name[256];
+    char is_export_function;
 } function_info;
 
 
@@ -42,47 +43,47 @@ typedef struct
 class LibM
 {
 public:
-	int4 block_size;
-	int4 cfg;
-	int1 is_inline_function;
-	char const *lib_name;
-	int4 instruction_size; // instruction number
-	int4 MOV_COUNT;
-	int4 CTI_COUNT;
-	int4 ARITHMETIC_COUNT;
-	int4 LOGI_COUNT;
-	int4 STRING_COUNT;
-	int4 ETC_COUNT;
-	TYPE_DESCRIPTOR((
-		KEY(block_size, INDEXED),
-		KEY(MOV_COUNT, INDEXED),
-		KEY(CTI_COUNT, INDEXED),
-		KEY(ARITHMETIC_COUNT, INDEXED),
-		KEY(LOGI_COUNT, INDEXED),
-		KEY(STRING_COUNT, INDEXED),
-		KEY(ETC_COUNT, INDEXED),
-		FIELD(cfg),
-		FIELD(is_inline_function),
-		FIELD(lib_name),
-		KEY(instruction_size, INDEXED)));
+    int4 block_size;
+    int4 cfg;
+    int1 is_inline_function;
+    char const* lib_name;
+    int4 instruction_size; // instruction number
+    int4 MOV_COUNT;
+    int4 CTI_COUNT;
+    int4 ARITHMETIC_COUNT;
+    int4 LOGI_COUNT;
+    int4 STRING_COUNT;
+    int4 ETC_COUNT;
+    TYPE_DESCRIPTOR((
+                        KEY(block_size, INDEXED),
+                        KEY(MOV_COUNT, INDEXED),
+                        KEY(CTI_COUNT, INDEXED),
+                        KEY(ARITHMETIC_COUNT, INDEXED),
+                        KEY(LOGI_COUNT, INDEXED),
+                        KEY(STRING_COUNT, INDEXED),
+                        KEY(ETC_COUNT, INDEXED),
+                        FIELD(cfg),
+                        FIELD(is_inline_function),
+                        FIELD(lib_name),
+                        KEY(instruction_size, INDEXED)));
 };
 
 typedef struct
 {
-	Graph *m;
-	Graph *g;
-	PCBitSet lib_info;
-	bool result;
+    Graph* m;
+    Graph* g;
+    PCBitSet lib_info;
+    bool result;
 } TEST_CONTEXT;
 
 
-void* disasm(byte *bin, int length, bool for_lib, char *lib_name,  bool is_inlined_function = true, char *from_file = NULL);
+void* disasm(byte* bin, int length, bool for_lib, char* lib_name,  bool is_inlined_function = true, char* from_file = NULL);
 void build_instruction_db();
-bool my_visitor(int n, node_id ni1[], node_id ni2[], void *usr_data);
-bool match(Graph *graph_g, Graph *graph_m, PCBitSet lib_info);
-bool matchBBSF(ControlFlowGraph *g, ControlFlowGraph *m);
-long GetM();
-unsigned __stdcall TestThread(void *pParam);
+bool my_visitor(int n, node_id ni1[], node_id ni2[], void* usr_data);
+bool match(Graph* graph_g, Graph* graph_m, PCBitSet lib_info);
+bool matchBBSF(ControlFlowGraph* g, ControlFlowGraph* m);
+bool GetM(int* job);
+unsigned __stdcall TestThread(void* pParam);
 bool myfunction(function_info& i, function_info& j);
 bool validate_result(ControlFlowGraph* GT, int n, node_id ni2[]);
 
