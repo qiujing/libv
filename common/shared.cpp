@@ -301,17 +301,17 @@ void build_instruction_db()
     if (!bFull)
     {
         disasm(lib_m, sizeof(lib_m), true, "strlen");
-        //disasm(lib_m2, sizeof(lib_m2), true, "strcpy");
-        //disasm(lib_m3, sizeof(lib_m3), true, "div");
-        //disasm(lib_m4, sizeof(lib_m4), true, "_pos_end");
-        //disasm(lib_m5, sizeof(lib_m5), true, "memcpy");
-        // disasm(lib_m6,sizeof(lib_m6),true,"strcat");
-        //disasm(lib_m7, sizeof(lib_m7), true, "strcmp");
-        //disasm(lib_m8, sizeof(lib_m8), true, "abs");
-        //disasm(lib_m9, sizeof(lib_m9), true, "memcmp");
+        disasm(lib_m2, sizeof(lib_m2), true, "strcpy");
+        disasm(lib_m3, sizeof(lib_m3), true, "div");
+        disasm(lib_m4, sizeof(lib_m4), true, "_pos_end");
+        disasm(lib_m5, sizeof(lib_m5), true, "memcpy");
+        disasm(lib_m6, sizeof(lib_m6), true, "strcat");
+        disasm(lib_m7, sizeof(lib_m7), true, "strcmp");
+        disasm(lib_m8, sizeof(lib_m8), true, "abs");
+        disasm(lib_m9, sizeof(lib_m9), true, "memcmp");
         disasm(lib_m10, sizeof(lib_m10), true, "strlen2");
-        //disasm(lib_m11, sizeof(lib_m11), true, "strset");
-        //disasm(lib_m12, sizeof(lib_m12), true, "wcscat");
+        disasm(lib_m11, sizeof(lib_m11), true, "strset");
+        disasm(lib_m12, sizeof(lib_m12), true, "wcscat");
         //disasm(lib_m13, sizeof(lib_m13), true, "eax?-1:0");
     }
 #if 1
@@ -359,8 +359,14 @@ bool match(Graph* graph_m, Graph* graph_g, PCBitSet lib_info)
     data[2] = (int)lib_info;
 
     Match m(&s0, my_visitor, &data);
-
-    m.match_par();
+    if (bFull)
+    {
+        m.match_par();
+    }
+    else
+    {
+        m.match_par2();
+    }
     return m.foundFlg;
 }
 
@@ -446,7 +452,7 @@ bool matchBBSF(ControlFlowGraph* g, ControlFlowGraph* m)
 // return a target function
 //
 long current_m = 0;
-bool GetM(int* job)
+bool GetM2(int* job)
 {
     CLock lock(cs);
 
@@ -463,6 +469,18 @@ bool GetM(int* job)
         return true;
     }
     return false;
+}
+
+long GetM()
+{
+    CLock lock(cs);
+    if (current_m < total_function_len)
+    {
+        int ret = current_m;
+        current_m++;
+        return ret;
+    }
+    return -1;
 }
 
 unsigned __stdcall TestThread(void* pParam)

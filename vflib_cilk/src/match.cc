@@ -53,6 +53,11 @@ Match::Match(State* s0, match_visitor vis, void* usr_data)
     InitializeCriticalSection(&this->cs);
 }
 
+void Match::match_serial()
+{
+    match_serial_helper(s0, 1);
+}
+
 void Match::match_par()
 {
     //timeval start, end;
@@ -60,14 +65,19 @@ void Match::match_par()
 
     //gettimeofday(&start, 0);
     //cv.start();
-    //match_par_helper(s0, 1);
-    match_par_helper_full_spawn(s0, 1, NULL, false);
+    match_par_helper(s0, 1);
+    //match_par_helper_full_spawn(s0, 1, NULL, false);
     //cv.stop();
     //cv.dump("match_performance");
     //gettimeofday(&end, 0);
     //printf("Matched in %f\n", tdiff(&end, &start));
 
     //match_serial_helper(s0, 1);
+}
+
+void Match::match_par2()
+{
+    match_par_helper_full_spawn2(s0, 1, NULL, false);
 }
 
 
@@ -137,11 +147,11 @@ void Match::match_serial_helper(State *s, int ss)
     if (s->IsGoal())
     {
         EnterCriticalSection(&this->cs);
-        if (foundFlg)
-        {
-            LeaveCriticalSection(&this->cs);
-            return;
-        }
+        //if (foundFlg)
+        //{
+        //    LeaveCriticalSection(&this->cs);
+        //    return;
+        //}
 
         pn = s->CoreLen();
         s->GetCoreSet(c1, c2);
@@ -158,8 +168,9 @@ void Match::match_serial_helper(State *s, int ss)
     }
 
     node_id n1 = NULL_NODE, n2 = NULL_NODE;
-    while (!(foundFlg)
-            && s->NextPair(&n1, &n2, n1, n2))
+    while (//!(foundFlg)
+        //&&
+        s->NextPair(&n1, &n2, n1, n2))
     {
         if (s->IsFeasiblePair(n1, n2))
         {
@@ -230,6 +241,69 @@ void Match::match_par_helper_full_spawn(State* s, int ss, bool* flag, bool run_o
             }
             s1->AddPair(n1, n2);
             cilk_spawn match_par_helper_full_spawn(s1, ss + 1, run, !para);
+        }
+    }
+    if (run_on_clone)
+    {
+        s->BackTrack();
+        *flag = false;
+    }
+
+    cilk_sync;
+
+    if (ss > 1)
+    {
+        delete s;
+        delete sc;
+    }
+
+    delete run;
+}
+
+void Match::match_par_helper_full_spawn2(State* s, int ss, bool* flag, bool run_on_clone)
+{
+    if (s->IsGoal())
+    {
+        EnterCriticalSection(&this->cs);
+        pn = s->CoreLen();
+        s->GetCoreSet(c1, c2);
+        visitor(pn, c1, c2, usr_data);
+        LeaveCriticalSection(&this->cs);
+
+        return;
+    }
+
+    if (s->IsDead())
+    {
+        return;
+    }
+
+    node_id n1 = NULL_NODE, n2 = NULL_NODE;
+
+    State* sc = s->DeepClone();
+    bool* run = new bool();
+    *run = false;
+
+    int serial = 0;
+    while (s->NextPair(&n1, &n2, n1, n2))
+    {
+        if (s->IsFeasiblePair(n1, n2))
+        {
+            State* s1;
+            bool para = *run;
+
+            if (*run)
+            {
+                s1 = s->DeepClone();
+            }
+            else
+            {
+                serial++;
+                *run = true;
+                s1 = sc->Clone();
+            }
+            s1->AddPair(n1, n2);
+            cilk_spawn match_par_helper_full_spawn2(s1, ss + 1, run, !para);
         }
     }
     if (run_on_clone)

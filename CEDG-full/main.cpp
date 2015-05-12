@@ -65,191 +65,187 @@ void clean(ControlFlowGraph* target_cfg)
     //db.detach();
 }
 
+
+bool my_visitor2(int n, node_id ni1[], node_id ni2[], void *usr_data)
+{
+    int *d = (int *)usr_data;
+    ControlFlowGraph * cfg = (ControlFlowGraph*)d[0];
+    PCBitSet lib_info = (PCBitSet)d[3];
+    int startEA = d[1];
+
+    if (!lib_info->isset(ni2[0]))
+    {
+        extern long found_c;
+        InterlockedExchangeAdd(&found_c, 1);
+        ///printf("1\t0\t%08X\t%s\n", cfg->instructions[ni2[0]].diasm.EIP - cfg->instructions[0].diasm.EIP + startEA, (char*)d[2]);
+        printf("1\t0\t%s\n", (char*)d[2]);
+
+        //if (show_dump)
+        //{
+        //	//int offset = startEA - cfg->instructions[0].diasm.EIP;
+        //	//BasicBlock* bb =
+        //	for (int i = 0; i < n; i++)
+        //	{
+        //		printf("%08X  %s\n", cfg->instructions[ni2[i]].diasm.EIP, cfg->instructions[ni2[i]].diasm.CompleteInstr);
+        //	}
+        //	bool f = validate_result(cfg, n, ni2);
+        //	printf(f ? "OK\n" : "Failed\n");
+        //	printf("\n\n");
+        //}
+        lib_info->set(ni2[0]);
+    }
+
+    return false;// is_full;
+
+}
 //
 // process thread
 //
 unsigned __stdcall MatchThread(void* pParam)
 {
-    //    int FLEN;
-    //    int n = 0, n1, i;
-    //    dbQuery sql;
-    //    ControlFlowGraph* target_cfg;
-    //
-    //    dbCursor<LibM> cursor1;
-    //    int thread_id = (int)pParam;
-    //    instruction_count[thread_id] = 0;
-    //    fn[thread_id] = 0;
-    //    contract_rate[thread_id] = 0;
-    //    db.attach();
-    //
-    //
-    //    while ((i = GetM()) != -1)
-    //    {
-    //        int startEA = f_info[i].startEA;
-    //        FLEN = f_info[i].len;
-    //
-    //        // disasm
-    //        byte* bin = (byte*)RvaToPtr(pImageNtH, stMapFile.ImageBase, startEA - pOH->ImageBase);
-    //        if (bin == NULL)
-    //        {
-    //            continue;
-    //        }
-    //
-    //        target_cfg = (ControlFlowGraph*)disasm(bin, FLEN, false, NULL);
-    //
-    //        if (target_cfg == NULL)
-    //        {
-    //            continue;
-    //        }
-    //
-    //        fn[thread_id]++;
-    //
-    //        // rule1: LR
-    //#ifndef FORCE_INLINE
-    //        if (bFull)
-    //        {
-    //            sql = "MOV_COUNT=", target_cfg->MOV_COUNT, " and CTI_COUNT=", target_cfg->CTI_COUNT, " and ARITHMETIC_COUNT=", target_cfg->ARITHMETIC_COUNT, " and LOGI_COUNT=", target_cfg->LOGI_COUNT, " and STRING_COUNT=", target_cfg->STRING_COUNT, " and ETC_COUNT=", target_cfg->ETC_COUNT;
-    //        }
-    //        else
-    //#endif
-    //        {
-    //            sql = "MOV_COUNT<=", target_cfg->MOV_COUNT, " and CTI_COUNT<=", target_cfg->CTI_COUNT, " and ARITHMETIC_COUNT<=", target_cfg->ARITHMETIC_COUNT, " and LOGI_COUNT<=", target_cfg->LOGI_COUNT, " and STRING_COUNT<=", target_cfg->STRING_COUNT, " and ETC_COUNT<=", target_cfg->ETC_COUNT;
-    //        }
-    //
-    //        n = cursor1.select(sql);
-    //        if (n == 0)
-    //        {
-    //            r1[thread_id] += lib_count;
-    //            clean(target_cfg);
-    //            continue;
-    //        }
-    //
-    //        r1[thread_id] += lib_count - n;
-    //
-    //        instruction_count[thread_id] += target_cfg->instructions.size();
-    //        target_cfg->build();
-    //
-    //        // rule3: BBNR
-    //        // rule4: BBMLR
-    //#ifndef FORCE_INLINE
-    //        if (bFull)
-    //        {
-    //            sql = "MOV_COUNT=", target_cfg->MOV_COUNT, " and CTI_COUNT=", target_cfg->CTI_COUNT, " and ARITHMETIC_COUNT=", target_cfg->ARITHMETIC_COUNT, " and LOGI_COUNT=", target_cfg->LOGI_COUNT, " and STRING_COUNT=", target_cfg->STRING_COUNT, " and ETC_COUNT=", target_cfg->ETC_COUNT, " and instruction_size=", target_cfg->instructions.size(), "and block_size=", target_cfg->bb_len, "order by instruction_size desc";
-    //        }
-    //        else
-    //#endif
-    //        {
-    //            sql = "MOV_COUNT<=", target_cfg->MOV_COUNT, " and CTI_COUNT<=", target_cfg->CTI_COUNT, " and ARITHMETIC_COUNT<=", target_cfg->ARITHMETIC_COUNT, " and LOGI_COUNT<=", target_cfg->LOGI_COUNT, " and STRING_COUNT<=", target_cfg->STRING_COUNT, " and ETC_COUNT<=", target_cfg->ETC_COUNT, " and instruction_size<=", target_cfg->instructions.size(), "and block_size<=", target_cfg->bb_len, "order by instruction_size desc";
-    //        }
-    //
-    //
-    //        n1 = cursor1.select(sql);
-    //        if (n1 == 0)
-    //        {
-    //            r34[thread_id] += n;
-    //            clean(target_cfg);
-    //            continue;
-    //        }
-    //        r34[thread_id] += (n - n1);
-    //
-    //        CBitSet lib_info(target_cfg->instructions.size());
-    //        do
-    //        {
-    //            ControlFlowGraph* library_cfg = (ControlFlowGraph*)(cursor1->cfg);
-    //            //cout <<"try: "<< cursor1->lib_name << endl;
-    //#if 0
-    //            // BBLR
-    //            bitset<10240> t = target_cfg->bblen_set;
-    //            t.flip();
-    //            t &= library_cfg->bblen_set;
-    //            if (t.any())
-    //            {
-    //                r2[thread_id]++;
-    //                return;
-    //            }
-    //#endif
-    //            target_cfg->buildDepGraph(false);
-    //            library_cfg->buildDepGraph(true);
-    //#if 0
-    //            // rule5: BBSF
-    //            if (!matchBBSF(target_cfg, library_cfg))
-    //            {
-    //                r5[thread_id]++;
-    //                return;
-    //            }
-    //#endif
-    //            target_cfg->serialize();
-    //            library_cfg->serialize();
-    //
-    //            ARGEdit* target_ed = new ARGEdit;
-    //            vector<VFNODE*> library_vf_graph;
-    //            vector<VFNODE*> target_vf_graph;
-    //
-    //            int status = target_cfg->buildCEDG(target_ed, library_cfg);
-    //            if (status != 0)
-    //            {
-    //                r6[thread_id]++;
-    //                delete target_ed;
-    //                clean(target_cfg);
-    //                return;
-    //            }
-    //
-    //            library_cfg->buildCEDG(&library_cfg->vlibARGEdit, library_cfg);
-    //
-    //            // statatics
-    //            target_cfg->get_edges_count();
-    //
-    //            size_t EDG_n = target_cfg->instructions.size();
-    //            size_t EDG_e = target_cfg->edge_count;
-    //            size_t CEDG_n = target_cfg->vertices_CEDG_count;
-    //            size_t CEDG_e = target_cfg->edge_CEDG_count;
-    //            contract_rate[thread_id] += (double)(CEDG_n + CEDG_e) / (EDG_n + EDG_e);
-    //
-    //            printf("%08X %s %d %d %d %d\n", startEA, cursor1->lib_name, CEDG_n, CEDG_e, EDG_n, EDG_e);
-    //
-    //
-    //            r0[thread_id]++;
-    //            Graph _g(target_ed);
-    //            Graph _m(&library_cfg->vlibARGEdit);
-    //            _m.SetNodeComparator(new InstructionComparator2);
-    //
-    //            TEST_CONTEXT tc;
-    //            tc.g = &_g;
-    //            tc.m = &_m;
-    //            tc.lib_info = &lib_info;
-    //            tc.result = false;
-    //
-    //            HANDLE thread = (HANDLE)_beginthreadex(NULL, 0, &TestThread, &tc, 0, NULL);
-    //            DWORD ret = WaitForSingleObject(thread, TIME_OUT);
-    //            if (ret == WAIT_TIMEOUT)
-    //            {
-    //                tc.result = true;
-    //                TerminateThread(thread, 0);
-    //                WaitForSingleObject(thread, 1000);
-    //                printf("Time out. graph size:%d\n", target_cfg->instructions.size());
-    //            }
-    //
-    //            if (tc.result)
-    //            {
-    //                // full library identification
-    //                /*if (library_cfg->instructions.size() == target_cfg->instructions.size())
-    //                {
-    //                printf("%d\t1\t%X\t%s\n", thread_id, startEA, cursor1->lib_name);
-    //                }
-    //                else*/
-    //                {
-    //                    printf("0\t%X\t%s\n", startEA, cursor1->lib_name);
-    //                }
-    //            }
-    //
-    //            // clean up
-    //            delete target_ed;
-    //        }
-    //        while (cursor1.next());
-    //
-    //        clean(target_cfg);
-    //    }
-    //    db.detach();
+    int FLEN;
+    int n = 0, n1, i;
+    dbQuery sql;
+    ControlFlowGraph* target_cfg;
+
+    dbCursor<LibM> cursor1;
+    int thread_id = (int)pParam;
+    instruction_count[thread_id] = 0;
+    fn[thread_id] = 0;
+    contract_rate[thread_id] = 0;
+    db.attach();
+
+
+    while ((i = GetM()) != -1)
+    {
+        int startEA = f_info[i].startEA;
+        FLEN = f_info[i].len;
+
+        // disasm
+        byte* bin = (byte*)RvaToPtr(pImageNtH, stMapFile.ImageBase, startEA - pOH->ImageBase);
+        if (bin == NULL)
+        {
+            continue;
+        }
+
+        target_cfg = (ControlFlowGraph*)disasm(bin, FLEN, false, NULL);
+
+        if (target_cfg == NULL)
+        {
+            continue;
+        }
+
+        fn[thread_id]++;
+
+        // rule1: LR
+        sql = "MOV_COUNT<=", target_cfg->MOV_COUNT, " and CTI_COUNT<=", target_cfg->CTI_COUNT, " and ARITHMETIC_COUNT<=", target_cfg->ARITHMETIC_COUNT, " and LOGI_COUNT<=", target_cfg->LOGI_COUNT, " and STRING_COUNT<=", target_cfg->STRING_COUNT, " and ETC_COUNT<=", target_cfg->ETC_COUNT;
+
+        n = cursor1.select(sql);
+        if (n == 0)
+        {
+            r1[thread_id] += lib_count;
+            clean(target_cfg);
+            continue;
+        }
+
+        r1[thread_id] += lib_count - n;
+
+        instruction_count[thread_id] += target_cfg->instructions.size();
+        target_cfg->build();
+
+        // rule3: BBNR
+        // rule4: BBMLR
+        sql = "MOV_COUNT<=", target_cfg->MOV_COUNT, " and CTI_COUNT<=", target_cfg->CTI_COUNT, " and ARITHMETIC_COUNT<=", target_cfg->ARITHMETIC_COUNT, " and LOGI_COUNT<=", target_cfg->LOGI_COUNT, " and STRING_COUNT<=", target_cfg->STRING_COUNT, " and ETC_COUNT<=", target_cfg->ETC_COUNT, " and instruction_size<=", target_cfg->instructions.size(), "and block_size<=", target_cfg->bb_len, "order by instruction_size desc";
+
+
+        n1 = cursor1.select(sql);
+        if (n1 == 0)
+        {
+            r34[thread_id] += n;
+            clean(target_cfg);
+            continue;
+        }
+        r34[thread_id] += (n - n1);
+
+        CBitSet lib_info(target_cfg->instructions.size());
+        do
+        {
+            ControlFlowGraph* library_cfg = (ControlFlowGraph*)(cursor1->cfg);
+            //cout <<"try: "<< cursor1->lib_name << endl;
+#if 0
+            // BBLR
+            bitset<10240> t = target_cfg->bblen_set;
+            t.flip();
+            t &= library_cfg->bblen_set;
+            if (t.any())
+            {
+                r2[thread_id]++;
+                return;
+            }
+#endif
+            target_cfg->buildDepGraph(false);
+            library_cfg->buildDepGraph(true);
+#if 0
+            // rule5: BBSF
+            if (!matchBBSF(target_cfg, library_cfg))
+            {
+                r5[thread_id]++;
+                return;
+            }
+#endif
+            target_cfg->serialize();
+            library_cfg->serialize();
+
+            ARGEdit* target_ed = new ARGEdit;
+            vector<VFNODE*> library_vf_graph;
+            vector<VFNODE*> target_vf_graph;
+
+            int status = target_cfg->buildCEDG(target_ed, library_cfg);
+            if (status != 0)
+            {
+                r6[thread_id]++;
+                delete target_ed;
+                clean(target_cfg);
+                return;
+            }
+
+            library_cfg->buildCEDG(&library_cfg->vlibARGEdit, library_cfg);
+
+            // statatics
+            target_cfg->get_edges_count();
+
+            size_t EDG_n = target_cfg->instructions.size();
+            size_t EDG_e = target_cfg->edge_count;
+            size_t CEDG_n = target_cfg->vertices_CEDG_count;
+            size_t CEDG_e = target_cfg->edge_CEDG_count;
+            contract_rate[thread_id] += (double)(CEDG_n + CEDG_e) / (EDG_n + EDG_e);
+
+            printf("%08X %s %d %d %d %d\n", startEA, cursor1->lib_name, CEDG_n, CEDG_e, EDG_n, EDG_e);
+
+
+            r0[thread_id]++;
+            Graph _g(target_ed);
+            Graph _m(&library_cfg->vlibARGEdit);
+            _m.SetNodeComparator(new InstructionComparator2);
+
+            VF2SubState s0(&_m, &_g);
+            int d[4];
+            d[0] = (int)target_cfg;
+            d[1] = startEA;
+            d[2] = (int)cursor1->lib_name;
+            d[3] = (int)&lib_info;
+
+            Match m(&s0, my_visitor2, &d);
+            m.match_par2();
+
+            // clean up
+            delete target_ed;
+        }
+        while (cursor1.next());
+
+        clean(target_cfg);
+    }
+    db.detach();
     return 0;
 }
 
@@ -300,19 +296,19 @@ unsigned __stdcall MatchThreadForFull(void* pParam)
         loop_count++;
     }
 
-    //while (GetM(job))
+    while ((i = GetM()) != -1)
     {
         //for (i = job[0]; i < job[1]; i++)
         //for (size_t kk = 0; kk < loop_count; kk++)
-        for (i = 0; i < loop_count; i++)
+        //for (i = 0; i < loop_count; i++)
         {
-            int kk = i * THREAD_NUM + thread_id;
+            /*int kk = i * THREAD_NUM + thread_id;
             if (kk >= total_function_len)
             {
                 break;
-            }
-            int startEA = f_info[kk].startEA;
-            FLEN = f_info[kk].len;
+            }*/
+            int startEA = f_info[i].startEA;
+            FLEN = f_info[i].len;
 
             // disasm
             byte* bin = (byte*)RvaToPtr(pImageNtH, stMapFile.ImageBase, startEA - pOH->ImageBase);
@@ -414,15 +410,17 @@ unsigned __stdcall MatchThreadForFull(void* pParam)
                         tc.lib_info = &lib_info;
                         tc.result = false;
 
-                        HANDLE thread = (HANDLE)_beginthreadex(NULL, 0, &TestThread, &tc, 0, NULL);
-                        DWORD ret = WaitForSingleObject(thread, INFINITE);//TIME_OUT);
-                        if (ret == WAIT_TIMEOUT)
+                        //HANDLE thread = (HANDLE)_beginthreadex(NULL, 0, &TestThread, &tc, 0, NULL);
+                        //DWORD ret = WaitForSingleObject(thread, INFINITE);//TIME_OUT);
+                        /*if (ret == WAIT_TIMEOUT)
                         {
                             tc.result = true;
                             TerminateThread(thread, 0);
                             WaitForSingleObject(thread, 1000);
                             printf("Time out. graph size:%d\n", target_cfg->instructions.size());
-                        }
+                        }*/
+
+                        tc.result = match(tc.m, tc.g, tc.lib_info);
 
                         if (tc.result)
                         {
@@ -565,10 +563,10 @@ int main(int argc, char** argv)
     lib_root_path = argv[2];
     bFull = argv[3][0] == '1';
 
-    if (!bFull)
-    {
-        return 0;
-    }
+    //if (!bFull)
+    //{
+    //    return 0;
+    //}
 
     bMultiThread = true;
     bSerialize = true;

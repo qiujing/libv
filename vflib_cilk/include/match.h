@@ -47,6 +47,7 @@ public:
     bool foundFlg;
     Match(State* s0, match_visitor vis, void* usr_data = NULL);
     void match_par();
+    void match_par2();
     void match_serial();
 private:
     //Concurrency::critical_section lock;
@@ -54,6 +55,7 @@ private:
     void match_par_helper(State *s, int ss);
     void match_serial_helper(State *s, int ss);
     void match_par_helper_full_spawn(State* s, int ss, bool* flag, bool run_on_clone);
+    void match_par_helper_full_spawn2(State* s, int ss, bool* flag, bool run_on_clone);
     match_visitor visitor;
     void* usr_data;
 };
